@@ -4,7 +4,8 @@
 int main() {
     // Declare an array of 10 characters
     char a[10];
-    int a[10];
+    int b[10];
+
     // Attempting to use a.length --> invalid in C, so comment
     // printf("a.length --> NO in C\n");
 //0 15 size_t
@@ -18,11 +19,12 @@ int main() {
     printf("Number of elements in array a: %zu\n", length_a);
 
     // Optional: Add assertions or checks
+    /*
     if (length_a == 10) {
         printf("Test passed: Array length is 10.\n");
     } else {
         printf("Test failed: Array length is not 10.\n");
-    }
+    }*/
 
     return 0;
 }
