@@ -2,6 +2,8 @@
 #include <stdio.h>
 
 int main() {
-    login();
+    if(login() == 1){
+        choose_operation();
+    };
     return 0;
 }

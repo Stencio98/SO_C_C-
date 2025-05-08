@@ -1,0 +1,5 @@
+op 1
+ciao
+sudo apt muori
+sudo i love u
+mint wow
