@@ -1,7 +1,6 @@
 prepare:
 	sudo apt-get install libncurses5-dev libncursesw5-dev
 build:
-	gcc -o TUI TUI.c -lncurses
-	gcc -o TUI_1 TUI_1.c -lncurses
+	gcc TUI.c TUI_library.c -lncurses -o TUI_program
 run:
-	./TUI_1
+	./TUI_program
