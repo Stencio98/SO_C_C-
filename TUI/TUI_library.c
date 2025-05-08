@@ -4,7 +4,6 @@
 #define WIDTH  40
 #define HEIGHT 10
 
-#define FILE_ARRAY 100
 //function to handle login
 int login() {
     WINDOW *win;
@@ -67,24 +66,23 @@ int choose_operation(){
     int choice = 0;
     int highlight = 1; // opzione evidenziata
 
-    height = 20; // altezza della finestra del menu
-    width = 80;  // larghezza della finestra del menu
-    starty = (LINES - height) / 2;
-    startx = (COLS - width) / 2;
+    
+    starty = (LINES - HEIGHT) / 2;
+    startx = (COLS - WIDTH) / 2;
 
     // crea la finestra del menu
-    menu_win = newwin(height, width, starty, startx);
+    menu_win = newwin(HEIGHT, WIDTH, starty, startx);
     keypad(menu_win, TRUE);
     box(menu_win, 0, 0);
     wrefresh(menu_win);
 
     // Opzioni del menu
-
-    //int n_choices = sizeof(commands) / sizeof(commands[0]);
+	const char *commands[2] = {"comando 1", "comando 2"};
+    int n_choices = sizeof(commands) / sizeof(commands[0]);
 
     while(1) {
         // Disegna le scelte
-        for (int i = 0; i < num_lines; ++i) {
+        for (int i = 0; i < n_choices; ++i) {
             if (i == highlight - 1)
                 wattron(menu_win, A_REVERSE);
             mvwprintw(menu_win, i + 2, 2, "%s", commands[i]);
@@ -96,12 +94,12 @@ int choose_operation(){
         switch(c) {
             case KEY_UP:
                 if (highlight == 1)
-                    highlight = num_lines;
+                    highlight = n_choices;
                 else
                     --highlight;
                 break;
             case KEY_DOWN:
-                if (highlight == num_lines)
+                if (highlight == n_choices)
                     highlight = 1;
                 else
                     ++highlight;
@@ -118,26 +116,9 @@ int choose_operation(){
         }
     }
 
-    // Gestione delle scelte
-    switch (choice) {
-        case 1:
-            // Invoca funzione aggiungi elemento
-            // esempio: add_element();
-            break;
-        case 2:
-            // Invoca funzione visualizza elementi
-            // esempio: display_elements();
-            break;
-        case 3:
-            // Esci dal programma
-            delwin(menu_win);
-            endwin();
-            // terminare il programma o tornare
-            return -1;
-    }
-
     // Pulizia
     delwin(menu_win);
+    endwin();
     // Dopo aver gestito l’operazione, puoi continuare o ricominciare
     return 0;
 }
@@ -145,60 +126,156 @@ int choose_operation(){
 
 
 
+
+
+
+
+
+
+
+
+
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAX_RIGHE 100    // Numero massimo di righe
+#define MAX_LUNGhezza 256 // Lunghezza massima di ogni riga
+
+// Funzione che legge un file e restituisce una matrice di stringhe
+// Restituisce un puntatore a un array di puntatori di char
+// In caso di errore, ritorna NULL
 char **leggiFileInMatrice(const char *nomeFile, int *numeroRighe) {
     FILE *file = fopen(nomeFile, "r");
     if (file == NULL) {
-        perror("Errore nell'apertura del file");
-        *numeroRighe = 0;
+        perror("Errore apertura file");
         return NULL;
     }
 
-    // Prima passata: conta quante righe ci sono
-    int count = 0;
-    char buffer[MAX_LINE_LENGTH];
-    while (fgets(buffer, MAX_LINE_LENGTH, file) != NULL) {
-        count++;
-    }
-
-    // Reset del puntatore del file all'inizio
-    rewind(file);
-
-    // Alloca la memoria per la matrice (array di puntatori a stringhe)
-    char **matrice = malloc(sizeof(char *) * count);
+    // Alloca memoria per le righe
+    char **matrice = malloc(MAX_RIGHE * sizeof(char *));
     if (matrice == NULL) {
-        perror("Errore di allocazione della memoria");
+        perror("Errore allocazione memoria");
         fclose(file);
-        *numeroRighe = 0;
         return NULL;
     }
 
-    // Legge le righe e le memorizza
-    int i = 0;
-    while (fgets(buffer, MAX_LINE_LENGTH, file) != NULL) {
-        // Rimuove il carattere di newline alla fine della riga, se presente
+    int count = 0;
+    char buffer[MAX_LUNGhezza];
+
+    while (fgets(buffer, MAX_LUNGhezza, file) != NULL && count < MAX_RIGHE) {
+        // Rimuovi il carattere di newline se presente
         buffer[strcspn(buffer, "\n")] = '\0';
 
         // Alloca memoria per la riga
-        matrice[i] = malloc(strlen(buffer) + 1);
-        if (matrice[i] == NULL) {
-            perror("Errore di allocazione della memoria");
-            // Liberare le righe già allocate prima di uscire
-            for (int j = 0; j < i; j++) {
-                free(matrice[j]);
+        matrice[count] = malloc((strlen(buffer) + 1) * sizeof(char));
+        if (matrice[count] == NULL) {
+            perror("Errore allocazione memoria riga");
+            // Dealloca tutte le righe già lette
+            for (int i = 0; i < count; i++) {
+                free(matrice[i]);
             }
             free(matrice);
             fclose(file);
-            *numeroRighe = 0;
             return NULL;
         }
-        strcpy(matrice[i], buffer);
-        i++;
+
+        // Copia il contenuto della riga
+        strcpy(matrice[count], buffer);
+        count++;
     }
 
     fclose(file);
     *numeroRighe = count;
     return matrice;
 }
+
+// Funzione per liberare la memoria della matrice
+void liberaMatrice(char **matrice, int righe) {
+    for (int i = 0; i < righe; i++) {
+        free(matrice[i]);
+    }
+    free(matrice);
+}
+
+int main() {
+    int righe = 0;
+    char **matrice = leggiFileInMatrice("tuo_file.txt", &righe);
+    if (matrice == NULL) {
+        printf("Errore durante la lettura del file.\n");
+        return 1;
+    }
+
+    // Stampa tutte le righe lette
+    for (int i = 0; i < righe; i++) {
+        printf("Riga %d: %s\n", i + 1, matrice[i]);
+    }
+
+    // Libera la memoria
+    liberaMatrice(matrice, righe);
+
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
