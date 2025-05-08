@@ -5,8 +5,8 @@
 
 #define WIDTH  40
 #define HEIGHT 10
-#define ZZZZZZ
-
+//#define ZZZZZZ
+#define PASS
 int main() {
     WINDOW *win; // pointer to a WINDOW --> WINDOW is an ncurses object
     int startx, starty; //typically will store x and y coordinates, for example, where to position windows or text
@@ -37,7 +37,7 @@ int main() {
     // Posiziona il cursore per l'input
     mvwgetnstr(win, 4, 2, input, 79);
 
-#ifndef ZZZZZZ
+#ifdef ZZZZZZ
     // Pulisci la finestra e mostra il saluto
     werase(win);
     box(win, 0, 0);
@@ -52,6 +52,7 @@ int main() {
     endwin();
 #endif
 
+#ifdef PASS
     char pass[80] = "password";
     if (strcmp(input, pass) == 0) {
         werase(win);
@@ -67,6 +68,7 @@ int main() {
         delwin(win);
         endwin();
     }
+#endif
     wgetch(win); // aspetta un tasto
     delwin(win);
     endwin();
