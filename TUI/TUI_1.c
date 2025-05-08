@@ -25,6 +25,7 @@ int main() {
     mvwprintw(win, 2, (WIDTH - strlen("Password:")) / 2, "Password:");
     wrefresh(win);
 
+    //posiziona cursore per input
     mvwgetnstr(win, 4, 2, input, 79);
 
     char pass[80] = "password";
