@@ -7,9 +7,9 @@
 int login();
 
 // ritorna il numero dell'operazione selezionata
-int choose_operation();
+char *choose_operation();
 
 // legge il file con i comandi
-int read_lines();
+char **leggiFileInMatrice();
 
 #endif

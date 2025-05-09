@@ -3,7 +3,8 @@
 
 int main() {
     if(login() == 1){
-        choose_operation();
-    };
+    		char *operation;
+    		operation = choose_operation();
+    }
     return 0;
 }
