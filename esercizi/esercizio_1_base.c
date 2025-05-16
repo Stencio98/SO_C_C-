@@ -5,7 +5,7 @@
 //#define SEGV --> macro
 // gcc -D SEGV esercizio_1_base.c
 int main(){
-    int a[10]; // int a[10] = {1} --> all a[i] = 1
+    int a[10]={0}; // int a[10] = {1} --> all a[i] = 1
     int i = 0;
     int sum = 0;
     int len_a = sizeof(a) / sizeof(a[0]);
@@ -24,10 +24,14 @@ int main(){
     printf("we have not inizialized the a array, so we read the values that were there before\n\n\n\n");
 
 
-
-    srand(time (NULL) + getpid());
+	
+    srand(time (NULL));
     i = 0;
     sum = 0;
+    printf("value RAND_MAX: %d\n", RAND_MAX);
+    printf("For many standard implementations (e.g., on Unix/Linux systems), \
+RAND_MAX is defined as the maximum value of a positive int that can be represented, \
+typically 2^31 - 1 = 2147483647\n");
     while(i < 10){
         a[i] = rand();
         printf("a[%d]: %d\n", i, a[i]);
