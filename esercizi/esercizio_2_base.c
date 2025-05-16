@@ -62,16 +62,5 @@ int main(){
 		pc++;
 	}
 	printf("i am sorry\n");
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	return 0;
 }
