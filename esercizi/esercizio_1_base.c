@@ -46,7 +46,7 @@ typically 2^31 - 1 = 2147483647\n");
     i = 0;
     sum = 0;
     while(i < 10){
-        a[i] = rand()%11;
+        a[i] = rand()%11; // generae 0..1
         printf("a[%d]: %d\n", i, a[i]);
         sum = sum + a[i];
         i++;

@@ -25,22 +25,43 @@ int main(){
 	while(i < len_a){
 		if (*p == find){
 			printf("array contains value: %d\n\n\n\n", find);
-			return 0;
+			i = len_a;
 		}
 		i++;
 		p++;
 	}
-	printf("array does not contains %d\n\n\n\n", find);
 	
 	
 	
-	
-	
+	srand(time (NULL));
 	printf("same ex but with char\n");
-	char b[100];
+	char b[101];
+	int b_len = sizeof(b) / sizeof(b[0]);
 	char *pc;
+	i = 0;
+	perror("0");
+	while(i < b_len - 2){
+		b[i] = (rand() % (127 + 1 - 33)) + 32; // rand() % 11 --> tra 0..10
+		// - 33 --> i primi da 0 a 31 (quindi 32 numeri) non sono stampabili
+		// ma anche il carattere 127 DEL non lo è
+		// ASCII
+		printf("b[%d]: %d --> %c \n", i, b[i], b[i]);
+		i++;
+	}
+	perror("1");
 	
-	while()
+	b[100]= '\0';
+	pc = b;
+	while(*pc != '\0'){
+		if (*pc == '!'){
+			printf("finded \"!\"\n\a");
+		}
+		if (*pc == '~'){
+			printf("finded \"~\"\n\a");
+		}
+		pc++;
+	}
+	printf("i am sorry\n");
 	
 	
 	
