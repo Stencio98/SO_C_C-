@@ -76,7 +76,5 @@ int main(){
 		pc++; // like i in array
 	}
 	printf("\n"); // end string so we print newline
-
-
-    return 0;
+	return 0;
 }
