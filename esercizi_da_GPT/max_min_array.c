@@ -35,6 +35,7 @@ int main(){
 		
 		i++;
 	}
+	
 	printf("a_max: %d\n", a_max);
 	printf("a_min: %d\n", a_min);
 	printf("b_max: %d\n", b_max);
